@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
-const Button = (props) => {
+const Button = ({handleClick, text}) => {
   return (
-  <button onClick={props.handleClick} >
-    {'Generate anecdote'}
+  <button onClick={handleClick} >
+    {text}
   </button>
   )
 }
@@ -15,10 +15,20 @@ const choice = (list) => Math.floor(Math.random() * list.length)
  * the function until new index value has been generated.
  */
 const newChoice = (list, state) => {
-  let number = choice(list)
-  number = (number == state ? newChoice(list): number)
+  let index = choice(list)
+  index = (index == state ? newChoice(list): index)
   return (
-   number
+   index
+  )
+}
+
+const addVote = (votes, index) => {
+  console.log(votes)
+  const voteCopy = {...votes}
+  console.log(voteCopy)
+  voteCopy[index] += 1
+  return (
+    voteCopy
   )
 }
 
@@ -34,12 +44,19 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState({
+    0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5:0, 6:0  
+  })
 
   return (
     <>
-      <Button handleClick={() => setSelected(newChoice(anecdotes,selected))} />
+      <Button handleClick={() => setSelected(newChoice(anecdotes,selected))} text='Generate anecdote' />
+      <Button handleClick={() => setVotes(addVote(votes,selected))} text='vote' />
       <div>
-        {anecdotes[selected]}
+        { anecdotes[selected] }
+      </div>
+      <div>
+        has { votes[selected] } votes
       </div>
     </>
   )
