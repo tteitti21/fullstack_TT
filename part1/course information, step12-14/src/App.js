@@ -22,15 +22,49 @@ const newChoice = (list, state) => {
   )
 }
 
+/** Adds vote to the current anecdote in a copy object
+ * and returns the object
+ */
 const addVote = (votes, index) => {
-  console.log(votes)
-  const voteCopy = {...votes}
-  console.log(voteCopy)
+  let voteCopy = {...votes}
   voteCopy[index] += 1
   return (
     voteCopy
   )
 }
+
+/** Displays the anecdote with the highest score */
+const DisplayTopScore = ( {anecdotes, votes} ) => {
+  let values = Object.values(votes)
+  let highestScore = Math.max(...values)
+  let topAnecdote = ''
+  for (let [key, value] of Object.entries(votes)) {
+    if (value == highestScore) {
+      topAnecdote = anecdotes[key]
+    }
+  }
+  return (
+    <>
+      <h1> Anecdote with most votes</h1>
+      <div>{topAnecdote}</div>
+      <div>has {highestScore}</div>
+    </>
+  )
+}
+
+/** Dsiplays the current anecdote and its votes */
+const DisplayCurrent = ( {anecdotes, selected, votes} ) => (
+    <>
+      <h1>Anecdote of the day</h1>
+      <div>
+        { anecdotes[selected] }
+      </div>
+      <div>
+        has { votes[selected] } votes
+      </div>
+    </>
+  )
+
 
 const App = () => {
   const anecdotes = [
@@ -50,14 +84,10 @@ const App = () => {
 
   return (
     <>
+      <DisplayCurrent anecdotes={anecdotes} selected={selected} votes={votes} />
       <Button handleClick={() => setSelected(newChoice(anecdotes,selected))} text='Generate anecdote' />
       <Button handleClick={() => setVotes(addVote(votes,selected))} text='vote' />
-      <div>
-        { anecdotes[selected] }
-      </div>
-      <div>
-        has { votes[selected] } votes
-      </div>
+      <DisplayTopScore anecdotes={anecdotes} votes={votes} />
     </>
   )
 }
