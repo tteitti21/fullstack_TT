@@ -6,6 +6,7 @@ const App = () => {
     { name: 'Arto Hellas' }
   ]) 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   /** Adds persons to phonebook if similar name doesnt exist */
   const addPerson = (event) => {
@@ -13,9 +14,11 @@ const App = () => {
     if (!persons.map(person => person.name).includes(newName)) {
     const phonebookObject = {
       name: newName,
+      number: newNumber,
     }
     setPersons(persons.concat(phonebookObject))
     setNewName('')
+    setNewNumber('')
     }
     else {
       alert(`${newName} is already added to phonebook`)
@@ -26,8 +29,13 @@ const App = () => {
    * sets the state to match new input.
    */
   const handleNameChange = (event) => {
-    console.log(event.target.value)
     setNewName(event.target.value)
+  }
+  /** When change in the input field happens,
+   * sets the state to match new input.
+   */
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
   }
 
   return (
@@ -38,6 +46,12 @@ const App = () => {
           name: <input 
           value={newName}
           onChange={handleNameChange}
+          />
+        </div>
+        <div>
+          number: <input 
+          value={newNumber}
+          onChange={handleNumberChange}
           />
         </div>
         <div>
