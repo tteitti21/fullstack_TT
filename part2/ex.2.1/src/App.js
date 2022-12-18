@@ -1,37 +1,4 @@
-
-const Course = ( {course} ) => {
-  let sum = course.parts.reduce(
-    (partialSum, indexValue) => partialSum + indexValue.exercises, 0
-    )
-
-  return (
-    <div>
-      <h1>{course.name}</h1>
-      <ul style={{"listStyleType":"none", padding:0}}>
-        {course.parts.map(part =>
-          <Content key={part.id} part={part}/>
-          )}
-      </ul>
-      <div>
-        <b>total of {sum} exercises</b>
-      </div>
-    </div>
-  )
-}
-
-const Courses = ( {courses} ) => {
-  return (
-    <>
-      {courses.map(course => 
-        <Course key={course.id} course={course}/>
-      )}
-    </>
-  )
-}
-
-const Content = ({ part }) => (
-  <li style={{paddingBottom:"2%"}}>{part.name} {part.exercises}</li>
-)
+import Courses from "./components/Courses"
 
 const App = () => {
   const courses = [
