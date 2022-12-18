@@ -1,19 +1,27 @@
 
+
 const Course = ( {course} ) => {
+  let sum = course.parts.reduce(
+    (partialSum, indexValue) => partialSum + indexValue.exercises, 0
+    )
+
   return (
     <>
       <h1>Half Stack application development</h1>
-      <ul>
+      <ul style={{"listStyleType":"none", padding:0}}>
         {course.parts.map(part =>
           <Content key={part.id} part={part}/>
           )}
       </ul>
+      <div>
+        <b>total of {sum} exercises</b>
+      </div>
     </>
   )
 }
 
 const Content = ({ part }) => (
-  <li>{part.name} {part.exercises}</li>
+  <li style={{paddingBottom:"2%"}}>{part.name} {part.exercises}</li>
 )
 
 const App = () => {
