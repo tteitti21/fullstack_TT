@@ -27,10 +27,12 @@ const DisplayPerson = ({ person, handleDeletion }) => {
     )
 }
 
-const DeleteUser = ({ id, handleDeletion}) => (
+const DeleteUser = ({ id, handleDeletion}) => {
+  return (
   <button id={id} onClick={handleDeletion}>
     delete
   </button>
-)
+  )
+}
 
  export default FilterSearch
