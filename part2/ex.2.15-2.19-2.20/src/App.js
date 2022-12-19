@@ -3,7 +3,7 @@ import SearchField from './components/SearchField'
 import FormField from './components/FormField'
 import FilterSearch from './components/FilterSearch'
 import AxiosCalls from './services/AxiosCalls'
-import SuccessMessage from './components/SuccessMessage'
+import NotificationMessage from './components/NotificationMessage'
 
 const App = () => {
 
@@ -11,7 +11,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchField, setSearchField] = useState('')
-  const [successMessage, setSuccessMessage] = useState(null)
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [messageType, setMessageType] = useState(null)
 
   useEffect(() => {
     AxiosCalls
@@ -35,12 +36,15 @@ const App = () => {
         setPersons(persons.concat(newPerson))
         setNewName('')
         setNewNumber('')
+        setMessageType(true)
         return newPerson
       })
       .then(newPerson => {
-        setSuccessMessage(`Successfully added entry for ${newPerson.name}`)
+        setMessageType(true)
+        setNotificationMessage(`Successfully added entry for ${newPerson.name}`)
         setTimeout(() => {
-          setSuccessMessage(null)
+          setNotificationMessage(null)
+          setMessageType(null)
         }, 3000) 
       })
     }
@@ -60,11 +64,20 @@ const App = () => {
         return updatedEntry
         })
         .then(updatedEntry => {
-          setSuccessMessage(`Successfully updated phonenumber of ${updatedEntry.name}`)
+          setMessageType(true)
+          setNotificationMessage(`Successfully updated phonenumber of ${updatedEntry.name}`)
           setTimeout(() => {
-            setSuccessMessage(null)
+            setNotificationMessage(null)
+            setMessageType(null)
+          }, 3000)
+          return updatedEntry
+        })
+        .catch(() => {
+          setNotificationMessage(`Information of ${newName} have already been deleted`)
+          setTimeout(() => {
+            setNotificationMessage(null)
           }, 3000) 
-        })  
+        })
       }
     }
   }
@@ -91,7 +104,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <SuccessMessage message={successMessage} />
+      <NotificationMessage message={notificationMessage} type={messageType}/>
       <SearchField searchField={searchField} handleSearchChange={handleSearchChange}/>
       <h2>add a new</h2>
       <FormField addPerson={addPerson} newName={newName} newNumber={newNumber} 
