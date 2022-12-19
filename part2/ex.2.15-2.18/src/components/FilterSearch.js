@@ -1,5 +1,5 @@
 /** Using regular experrions narrows search results when user inputs more characters. */
-const FilterSearch = ({persons, searchField}) => {
+const FilterSearch = ({persons, searchField, handleDeletion}) => {
 
     const personsToShow = persons.filter(
       person => person.name.toLowerCase().search(
@@ -9,19 +9,28 @@ const FilterSearch = ({persons, searchField}) => {
       return (
         <table>
           <tbody>
-            { personsToShow.map(person => <DisplayPerson key={person.id} person={person}/>) }
+            { personsToShow.map(
+              person => <DisplayPerson key={person.id} person={person}
+              handleDeletion={handleDeletion}/>) }
           </tbody>
         </table>
       )
    }
 
-const DisplayPerson = ({ person }) => {
+const DisplayPerson = ({ person, handleDeletion }) => {
     return (
         <tr>
             <th style={{textAlign:"left", fontWeight:"normal"}}>{person.name}</th>
             <th style={{textAlign:"left", fontWeight:"normal"}}>{person.number}</th>
+            <th><DeleteUser id={person.id} handleDeletion={handleDeletion} /></th>
         </tr>
     )
 }
+
+const DeleteUser = ({ id, handleDeletion}) => (
+  <button id={id} onClick={handleDeletion}>
+    delete
+  </button>
+)
 
  export default FilterSearch

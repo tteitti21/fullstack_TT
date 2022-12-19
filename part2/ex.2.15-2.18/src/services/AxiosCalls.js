@@ -11,4 +11,8 @@ const postAll = (newPerson) => {
     return request.then(response => response.data)
 }
 
-export default { getAll, postAll }
+const deletePerson = (id) => {
+    return axios.delete(`${baseUrl}/${id}`)
+}
+
+export default { getAll, postAll, deletePerson }

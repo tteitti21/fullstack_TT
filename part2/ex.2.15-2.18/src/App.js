@@ -55,7 +55,14 @@ const App = () => {
   const handleSearchChange = (event) => {
     setSearchField(event.target.value)
   }
-
+  const handleDeletion = (event) => {
+    AxiosCalls
+    .deletePerson(event.target.id)
+    .then(setPersons(
+      persons.filter(person => person.id !== parseInt(event.target.id))))
+ 
+  }
+  
   return (
     <div>
       <h2>Phonebook</h2>
@@ -65,7 +72,8 @@ const App = () => {
         handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}
         />
       <h2>Numbers</h2>
-      <FilterSearch persons={persons} searchField={searchField} />
+      <FilterSearch persons={persons} searchField={searchField} 
+        handleDeletion={handleDeletion}/>
     </div>
   )
 }
