@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import SearchField from './components/SearchField'
 import FormField from './components/FormField'
 import FilterSearch from './components/FilterSearch'
-import axios from 'axios'
+import AxiosCalls from './services/AxiosCalls'
 
 const App = () => {
 
@@ -12,10 +12,10 @@ const App = () => {
   const [searchField, setSearchField] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    AxiosCalls
+      .getAll()
+      .then(persons => {
+        setPersons(persons)
       })
   }, [])
 
@@ -27,13 +27,13 @@ const App = () => {
       name: newName,
       number: newNumber,
     }
-    axios
-        .post('http://localhost:3001/persons', phonebookObject)
-        .then(response => {
-          setPersons(persons.concat(response.data))
-          setNewName('')
-          setNewNumber('')
-        })
+    AxiosCalls
+      .postAll(phonebookObject)
+      .then(newPerson => {
+        setPersons(persons.concat(newPerson))
+        setNewName('')
+        setNewNumber('')
+      })
     }
     else {
       alert(`${newName} is already added to phonebook`)
