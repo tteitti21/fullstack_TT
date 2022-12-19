@@ -36,19 +36,26 @@ const App = () => {
       })
     }
     else {
-      alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newName} is already added to phonebook,
+      replace the old number with a new one?`)) {
+        let person = persons.find(n => n.name === newName)
+        const updatedObject = {
+          name: newName,
+          number: newNumber,
+        }
+        AxiosCalls.update(person.id, updatedObject)
+        .then(updatedEntry => {
+        setPersons(persons.map(p => p.id !== person.id ? p : updatedEntry))
+        setNewName('')
+        setNewNumber('')
+        })
+      }
     }
   }
-
-  /** When change in the input field happens,
-   * sets the state to match new input.
-   */
+  // Event handlers
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
-  /** When change in the input field happens,
-   * sets the state to match new input.
-   */
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
   }

@@ -1,20 +1,23 @@
 /** Using regular experrions narrows search results when user inputs more characters. */
 const FilterSearch = ({persons, searchField, handleDeletion}) => {
-
-    const personsToShow = persons.filter(
-      person => person.name.toLowerCase().search(
-        new RegExp(searchField.toLowerCase())) !== -1
+    try {
+      const personsToShow = persons.filter(
+        person => person.name.toLowerCase().search(
+          new RegExp(searchField.toLowerCase())) !== -1
+          )
+    
+        return (
+          <table>
+            <tbody>
+              { personsToShow.map(
+                person => <DisplayPerson key={person.id} person={person}
+                handleDeletion={handleDeletion}/>) }
+            </tbody>
+          </table>
         )
-  
-      return (
-        <table>
-          <tbody>
-            { personsToShow.map(
-              person => <DisplayPerson key={person.id} person={person}
-              handleDeletion={handleDeletion}/>) }
-          </tbody>
-        </table>
-      )
+    } catch (error) {
+      return (<></>)
+    }
    }
 
 const DisplayPerson = ({ person, handleDeletion }) => {
