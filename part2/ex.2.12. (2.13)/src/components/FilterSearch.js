@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 /** Using regular experrions narrows search results when user inputs more characters. */
 const FilterSearch = ({countries, searchField}) => {
     const countriesToShow = countries.filter(
@@ -28,12 +30,28 @@ const FilterSearch = ({countries, searchField}) => {
     }
    }
 
+/** Button for making country information visible */
+const Button = ( {onClick, text} ) => (
+  <button onClick={onClick}>
+    {text}
+  </button>
+)
+
+/** Displays information of the country if it has been clicked to visible
+ * , otherwise displays only name and button to make it visible.
+ */
 const DisplayCountry = ({ country }) => {
+
+  const [visible, setVisible] = useState(false)
+
+  if (visible === true) {
     return (
       <>
         <tr>
             <th style={{textAlign:"left", fontWeight:"normal"}}>
-              <h1>{country.name.common}</h1></th>
+              <h1>{country.name.common}</h1>
+            </th>
+            <th><Button onClick={() => setVisible(!visible)} text='hide' /></th>
         </tr>
         <tr>
             <th style={{textAlign:"left", fontWeight:"normal"}}>capital:</th>
@@ -44,7 +62,7 @@ const DisplayCountry = ({ country }) => {
             <th style={{textAlign:"left", fontWeight:"normal"}}>{country.area}</th>
         </tr>
         <tr>
-            <th style={{textAlign:"left", fontWeight:"normal", paddingTop:'10%'}}>
+            <th style={{textAlign:"left", fontWeight:"normal", paddingTop:'5%'}}>
               <b>languages:</b></th>
         </tr>
         <tr>
@@ -55,12 +73,27 @@ const DisplayCountry = ({ country }) => {
           </th>
         </tr>
         <tr>
-          <th style={{ paddingTop:'15%'}}>
+          <th style={{ paddingTop:'10%'}}>
             <img src={country.flags.png} />
           </th>
         </tr>
       </>
     )
+  }
+  else {
+    return (
+      <>
+        <tr>
+            <th style={{textAlign:"left", fontWeight:"normal"}}>
+              {country.name.common}
+            </th>
+            <th>
+              <Button onClick={() => setVisible(!visible)} text='show' />
+            </th>
+        </tr>
+      </>
+    )
+  }
 }
 
  export default FilterSearch
